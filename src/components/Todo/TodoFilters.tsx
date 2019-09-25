@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import * as React from 'react';
-import { TodoItem } from './TodoItem';
+import * as React from "react";
+import { GetMyTodosQuery } from "../../generated/graphql";
 
 interface filterResults {
-  (filter: string): void
+  (filter: string): void;
 }
 
 interface TodoFiltersArgs {
-  todos: TodoItem[],
-  currentFilter: string,
-  filterResultsFn: filterResults,
-  clearCompletedFn: VoidFunction
+  todos: GetMyTodosQuery["todos"];
+  currentFilter: string;
+  filterResultsFn: filterResults;
+  clearCompletedFn: VoidFunction;
 }
 
 const TodoFilters = ({
@@ -19,8 +19,8 @@ const TodoFilters = ({
   filterResultsFn,
   clearCompletedFn
 }: TodoFiltersArgs) => {
-  
-  const filterResultsHandler:filterResults = (filter: string) => { // enum type def
+  const filterResultsHandler: filterResults = (filter: string) => {
+    // enum type def
     filterResultsFn(filter);
   };
 
@@ -34,30 +34,41 @@ const TodoFilters = ({
   const activeTodos = todos.filter(todo => todo.is_completed !== true);
 
   let itemCount = todos.length;
-  if (currentFilter === 'active') {
+  if (currentFilter === "active") {
     itemCount = activeTodos.length;
-  } else if (currentFilter === 'completed') {
+  } else if (currentFilter === "completed") {
     itemCount = todos.length - activeTodos.length;
   }
 
   return (
     <div className="footerList">
-      <span> {itemCount} item{itemCount !== 1 ? "s" : ""}</span>
+      <span>
+        {" "}
+        {itemCount} item{itemCount !== 1 ? "s" : ""}
+      </span>
 
       <ul>
-        <li onClick={(e) => {filterResultsHandler("all")}}>
-          <a className={currentFilter === "all" ? "selected" : ""}>
-            All
-          </a>
+        <li
+          onClick={e => {
+            filterResultsHandler("all");
+          }}
+        >
+          <a className={currentFilter === "all" ? "selected" : ""}>All</a>
         </li>
 
-        <li onClick={(e) => {filterResultsHandler("active")}}>
-          <a className={currentFilter === "active" ? "selected" : ""}>
-            Active
-          </a>
+        <li
+          onClick={e => {
+            filterResultsHandler("active");
+          }}
+        >
+          <a className={currentFilter === "active" ? "selected" : ""}>Active</a>
         </li>
 
-        <li onClick={(e) => {filterResultsHandler("completed")}}>
+        <li
+          onClick={e => {
+            filterResultsHandler("completed");
+          }}
+        >
           <a className={currentFilter === "completed" ? "selected" : ""}>
             Completed
           </a>
