@@ -48,7 +48,10 @@ const TodoInput = ({ isPublic = false }) => {
             const existingTodos = getExistingTodos
               ? getExistingTodos.todos
               : [];
+
+            // TODO: what is this notation ?
             const newTodo = data.insert_todos!.returning[0];
+
             cache.writeQuery<GetMyTodosQuery>({
               query: GET_MY_TODOS,
               data: { todos: [newTodo, ...existingTodos] }
